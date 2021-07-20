@@ -1,12 +1,11 @@
-//タスクの一覧表示用サーブレット
+//新規登録用サーブレット
 
 package contolollers;
 
 import java.io.IOException;
-import java.util.List;
+import java.sql.Timestamp;
 
 import javax.persistence.EntityManager;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,16 +16,16 @@ import models.Task;
 import utils.DBUtil;
 
 /**
- * Servlet implementation class IndexServlet
+ * Servlet implementation class NewServlet
  */
-@WebServlet("/index")
-public class IndexServlet extends HttpServlet {
+@WebServlet("/new")
+public class NewServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public IndexServlet() {
+    public NewServlet() {
         super();
 
     }
@@ -35,15 +34,22 @@ public class IndexServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	    response.getWriter().append("Served at: ").append(request.getContextPath());
 	    EntityManager em = DBUtil.createEntityManager();
-	    List<Task> tasks = em.createNamedQuery("getAllTasks",Task.class).getResultList();
-		response.getWriter().append(Integer.valueOf(tasks.size()).toString());
-		em.close();
+	    em.getTransaction().begin();
 
-		request.setAttribute("tasks",tasks);
-		RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/views/tasks/index.jsp");
-		rd.forward(request, response);
+	    Task t = new Task();
+
+	    String content = new java.util.Scanner(System.in).nextLine();
+	    t.setContent(content);
+
+	    Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+	    t.setCreated_at(currentTime);
+	    t.setUpdetad_at(currentTime);
+
+	    em.persist(t);
+	    em.getTransaction().commit();
+
+	    em.close();
+
 	}
-
 }
