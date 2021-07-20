@@ -5,7 +5,7 @@
 	<c:param name ="naiyou">
 		<h2>新規登録ページ</h2>
 
-		<form method="POST" action="${page.Context.request.contextPath}/create">
+		<form method="POST" action="${pageContext.request.contextPath}/create">
 			<c:import url="form.jsp"/>
 		</form>
 
