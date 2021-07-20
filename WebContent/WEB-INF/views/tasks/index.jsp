@@ -4,7 +4,12 @@
 <c:import url="../layout/app.jsp">
 <%--nameがapp.jspの同じ名前の所に入る --%>
   <c:param name = "naiyou">
-
+	<c:if test="${flush != null}">
+		<div id = "flush_success">
+			<c:out value="${flush}"/>
+		</div>
+	</c:if>
+	<h2>タスク一覧</h2>
       <ul>
 		<c:forEach var="task" items="${tasks}">
 			<li>
