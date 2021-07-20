@@ -10,7 +10,7 @@
 			<h1>タスク管理　アプリケーション</h1>
 		</div>
 		<div>
-			${param.content}
+			${param.naiyou}
 		</div>
 		<div id="footer">
 			<p>by nikunokuni.</p>
